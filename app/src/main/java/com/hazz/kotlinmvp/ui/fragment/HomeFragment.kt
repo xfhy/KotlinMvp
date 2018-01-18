@@ -31,8 +31,10 @@ import java.util.*
 
 class HomeFragment : BaseFragment(), HomeContract.View {
 
-
-    private val mPresenter by lazy { HomePresenter() }
+    //懒加载
+    private val mPresenter by lazy {
+        HomePresenter()
+    }
 
     private var mTitle: String? = null
 
@@ -45,7 +47,10 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     private var isRefresh = false
     private var mMaterialHeader: MaterialHeader? = null
 
+    //伴生对象
     companion object {
+
+        //构建fragment
         fun getInstance(title: String): HomeFragment {
             val fragment = HomeFragment()
             val bundle = Bundle()
@@ -56,7 +61,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     }
 
     private val linearLayoutManager by lazy {
-        LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
 
@@ -75,6 +80,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         mPresenter.attachView(this)
         //内容跟随偏移
         mRefreshLayout.setEnableHeaderTranslationContent(true)
+        //刷新监听
         mRefreshLayout.setOnRefreshListener {
             isRefresh = true
             mPresenter.requestHomeData(num)
@@ -85,7 +91,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         //设置下拉刷新主题颜色
         mRefreshLayout.setPrimaryColorsId(R.color.color_light_black, R.color.color_title_bg)
 
-
+        //加载更多
         mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -112,15 +118,16 @@ class HomeFragment : BaseFragment(), HomeContract.View {
                     iv_search.setImageResource(R.mipmap.ic_action_search_white)
                     tv_header_title.text = ""
                 } else {
-                    if (mHomeAdapter?.mData!!.size > 1) {
+                    if (mHomeAdapter?.mData?.size ?: 0 > 1) {
                         toolbar.setBackgroundColor(getColor(R.color.color_title_bg))
                         iv_search.setImageResource(R.mipmap.ic_action_search_black)
-                        val itemList = mHomeAdapter!!.mData
-                        val item = itemList[currentVisibleItemPosition + mHomeAdapter!!.bannerItemSize - 1]
-                        if (item.type == "textHeader") {
+                        val itemList = mHomeAdapter?.mData
+                        val item = itemList?.get(currentVisibleItemPosition + (mHomeAdapter?.bannerItemSize
+                                ?: 0) - 1)
+                        if (item?.type == "textHeader") {
                             tv_header_title.text = item.data?.text
                         } else {
-                            tv_header_title.text = simpleDateFormat.format(item.data?.date)
+                            tv_header_title.text = simpleDateFormat.format(item?.data?.date)
                         }
                     }
                 }
