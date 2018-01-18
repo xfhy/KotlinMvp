@@ -112,15 +112,16 @@ class HomeFragment : BaseFragment(), HomeContract.View {
                     iv_search.setImageResource(R.mipmap.ic_action_search_white)
                     tv_header_title.text = ""
                 } else {
-                    if (mHomeAdapter?.mData!!.size > 1) {
+                    if (mHomeAdapter?.mData?.size ?: 0 > 1) {
                         toolbar.setBackgroundColor(getColor(R.color.color_title_bg))
                         iv_search.setImageResource(R.mipmap.ic_action_search_black)
-                        val itemList = mHomeAdapter!!.mData
-                        val item = itemList[currentVisibleItemPosition + mHomeAdapter!!.bannerItemSize - 1]
-                        if (item.type == "textHeader") {
+                        val itemList = mHomeAdapter?.mData
+                        val item = itemList?.get(currentVisibleItemPosition + (mHomeAdapter?.bannerItemSize
+                                ?: 0) - 1)
+                        if (item?.type == "textHeader") {
                             tv_header_title.text = item.data?.text
                         } else {
-                            tv_header_title.text = simpleDateFormat.format(item.data?.date)
+                            tv_header_title.text = simpleDateFormat.format(item?.data?.date)
                         }
                     }
                 }
