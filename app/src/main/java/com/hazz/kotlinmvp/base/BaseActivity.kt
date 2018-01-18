@@ -33,13 +33,10 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun initListener() {
-        mLayoutStatusView?.setOnClickListener(mRetryClickListener)
+        mLayoutStatusView?.setOnClickListener {
+            start()
+        }
     }
-
-    open val mRetryClickListener: View.OnClickListener = View.OnClickListener {
-        start()
-    }
-
 
     /**
      *  加载布局

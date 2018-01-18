@@ -23,17 +23,21 @@ object RetrofitManager{
     private var client: OkHttpClient? = null
     private var retrofit: Retrofit? = null
 
-
-
-
+    /**
+     * 懒加载   !!:将任何值转为非空类型,若该值为空则抛出异常
+     */
     val service: ApiService by lazy { getRetrofit()!!.create(ApiService::class.java)}
 
+    /**
+     * 属性委托
+     */
     private var token:String by Preference("token","")
 
     /**
      * 设置公共参数
      */
     private fun addQueryParameterInterceptor(): Interceptor {
+        //实现匿名Interceptor接口
         return Interceptor { chain ->
             val originalRequest = chain.request()
             val request: Request

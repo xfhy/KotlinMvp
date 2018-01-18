@@ -20,7 +20,7 @@ import kotlin.properties.Delegates
  *
  */
 
-class MyApplication : Application(){
+class MyApplication : Application() {
 
     private var refWatcher: RefWatcher? = null
 
@@ -28,6 +28,11 @@ class MyApplication : Application(){
 
         private val TAG = "MyApplication"
 
+        /*
+        * kotlin中使用var修饰的属性不允许不初始化，但是有的时候需要在使用的时候进行初始化，
+        * 针对该情况，可以使用Delegates.notNull()代理，运行时对属性进行判断，
+        * 若未初始化，则抛出java.lang.IllegalStateException异常：
+        * */
         var context: Context by Delegates.notNull()
             private set
 

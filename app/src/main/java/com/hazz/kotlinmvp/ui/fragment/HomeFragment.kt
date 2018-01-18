@@ -148,6 +148,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
 
     private fun openSearchActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //activity转场动画
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, iv_search, iv_search.transitionName)
             startActivity(Intent(activity, SearchActivity::class.java), options.toBundle())
         } else {

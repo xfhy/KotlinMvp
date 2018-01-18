@@ -94,11 +94,15 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
                 val bannerFeedList = ArrayList<String>()
                 val bannerTitleList = ArrayList<String>()
                 //取出banner 显示的 img 和 Title
-                Observable.fromIterable(bannerItemData)
+                /*Observable.fromIterable(bannerItemData)  //每次发送一个元素
                         .subscribe({ list ->
-                            bannerFeedList.add(list.data?.cover?.feed?:"")
-                            bannerTitleList.add(list.data?.title?:"")
-                        })
+                            bannerFeedList.add(list.data?.cover?.feed ?: "")
+                            bannerTitleList.add(list.data?.title ?: "")
+                        })*/
+                bannerItemData.forEach {
+                    bannerFeedList.add(it.data?.cover?.feed ?: "")
+                    bannerTitleList.add(it.data?.title ?: "")
+                }
 
                 //设置 banner
                 with(holder) {
@@ -117,6 +121,7 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
                         })
                     }
                 }
+
                 //没有使用到的参数在 kotlin 中用"_"代替
                 holder.getView<BGABanner>(R.id.banner).setDelegate { _, imageView, _, i ->
 
@@ -126,7 +131,7 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
             }
         //TextHeader
             ITEM_TYPE_TEXT_HEADER -> {
-                holder.setText(R.id.tvHeader, mData[position + bannerItemSize - 1].data?.text?:"")
+                holder.setText(R.id.tvHeader, mData[position + bannerItemSize - 1].data?.text ?: "")
             }
 
         //content
@@ -160,7 +165,7 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
     private fun inflaterView(mLayoutId: Int, parent: ViewGroup): View {
         //创建view
         val view = mInflater?.inflate(mLayoutId, parent, false)
-        return view!!
+        return view ?: View(parent.context)
     }
 
 
@@ -201,7 +206,7 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
                     .transition(DrawableTransitionOptions().crossFade())
                     .into(holder.getView(R.id.iv_avatar))
         }
-        holder.setText(R.id.tv_title, itemData?.title?:"")
+        holder.setText(R.id.tv_title, itemData?.title ?: "")
 
         //遍历标签
         itemData?.tags?.take(4)?.forEach {

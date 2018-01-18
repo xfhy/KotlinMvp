@@ -22,7 +22,7 @@ class Preference<T>(val name:String, private val default:T) {
         MyApplication.context.getSharedPreferences(file_name, Context.MODE_PRIVATE)
     }
 
-
+    //属性委托  必须提供getValue()和setValue()方法    当设置值的时候会调用setValue(),取值时会调用getValue()
     operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return getSharedPreferences(name, default)
     }
@@ -31,6 +31,7 @@ class Preference<T>(val name:String, private val default:T) {
         putSharedPreferences(name, value)
     }
 
+    //with函数是使用参数结果作为返回值
     @SuppressLint("CommitPrefEdits")
     private fun putSharedPreferences(name: String, value: T) = with(prefs.edit()) {
         when (value) {
@@ -104,7 +105,7 @@ class Preference<T>(val name:String, private val default:T) {
      * @throws ClassNotFoundException
      */
     @Suppress("UNCHECKED_CAST")
-    @Throws(IOException::class, ClassNotFoundException::class)
+    @Throws(IOException::class, ClassNotFoundException::class)   //可能要抛出的异常
     private fun<A> deSerialization(str: String): A {
         val redStr = java.net.URLDecoder.decode(str, "UTF-8")
         val byteArrayInputStream = ByteArrayInputStream(

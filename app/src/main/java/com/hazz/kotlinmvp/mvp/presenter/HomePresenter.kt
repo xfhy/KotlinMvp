@@ -52,6 +52,7 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
                 })
 
                 .subscribe({ homeBean->
+                    //可以直接调用view里面的方法
                     mRootView?.apply {
                         dismissLoading()
 

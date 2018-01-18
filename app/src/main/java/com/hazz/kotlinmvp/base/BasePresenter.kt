@@ -9,8 +9,10 @@ import io.reactivex.disposables.Disposable
  * Created by xuhao on 2017/11/16.
  *
  */
+//open表示可继承该类
 open class BasePresenter<T : IBaseView> : IPresenter<T> {
 
+    //绑定的view
     var mRootView: T? = null
         private set
 

@@ -86,8 +86,9 @@ class MainActivity : BaseActivity() {
         when (position) {
             0 // 首页
             -> mHomeFragment?.let {
+                //it即为当前对象   这里用闭包简化了判空的过程
                 transaction.show(it)
-            } ?: HomeFragment.getInstance(mTitles[position]).let {
+            } ?: HomeFragment.getInstance(mTitles[position]).let {  //当非空时需要添加进来,进行初始化
                 mHomeFragment = it
                 transaction.add(R.id.fl_container, it, "home")
             }
